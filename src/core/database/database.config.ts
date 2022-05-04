@@ -12,5 +12,10 @@ export default registerAs('database', () => {
     entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
     migrationsRun: false,
     migrations: [__dirname + '/../../../migrations/*{.ts,.js}'],
+    cli: {
+      // Location of migration should be inside src folder
+      // to be compiled into dist/ folder.
+      migrationsDir: __dirname + '/../../../migrations',
+    },
   };
 });
