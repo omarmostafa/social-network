@@ -5,7 +5,7 @@ import { appConfig } from '@core/config';
 import { MediaModule } from '@modules/media/media.module';
 import { UserModule } from '@modules/user/user.module';
 import { AuthModule } from '@modules/auth/auth-module';
-import {PostModule} from "@modules/post/post.module";
+import { PostModule } from '@modules/post/post.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import {PostModule} from "@modules/post/post.module";
     MediaModule,
     UserModule,
     AuthModule,
-      PostModule
+    PostModule,
   ],
   controllers: [],
   providers: [],

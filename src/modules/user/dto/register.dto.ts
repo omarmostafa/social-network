@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsOptional, IsString, IsUUID} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { UserDto } from '@modules/user/dto/user.dto';
 
 export class RegisterRequestDto {

@@ -1,11 +1,12 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, OneToMany,
+  Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {Post} from "@modules/post/entities/post.entity";
+import { Post } from '@modules/post/entities/post.entity';
 
 @Entity('tags')
 export class Tag {
@@ -16,11 +17,11 @@ export class Tag {
   name: string;
 
   @OneToMany(() => Post, (post) => post.tag)
-  posts: Post[];
+  posts?: Post[];
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp with time zone' })
-  updatedAt: Date;
+  updatedAt?: Date;
 }

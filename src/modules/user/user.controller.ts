@@ -1,4 +1,10 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { IAuthService } from '@modules/auth/contracts/auth.service.interface';
 import { LoginRequestDto, LoginResponseDto } from '@modules/user/dto/login.dto';
 import { InvalidCredentialException } from '@core/exceptions/business-logic/invalid-credential.exception';
@@ -8,7 +14,8 @@ import {
   RegisterRequestDto,
   RegisterResponseDto,
 } from '@modules/user/dto/register.dto';
-import { UserDto } from '@modules/user/dto/user.dto';
+import { Response } from '@core/types/response';
+import { TransformResponseInterceptor } from '@core/interceptors/transform-response.interceptor';
 
 @Controller('users')
 export class UserController {
@@ -20,12 +27,15 @@ export class UserController {
   @Post('login')
   async login(
     @Body() loginRequestDto: LoginRequestDto,
-  ): Promise<LoginResponseDto> {
+  ): Promise<Response<LoginResponseDto>> {
     try {
       const loginRes: LoginResponseDto = await this.authService.login(
         loginRequestDto,
       );
-      return loginRes;
+      return {
+        message: 'User Logged in succesfully',
+        data: loginRes,
+      };
     } catch (error: any) {
       if (error instanceof InvalidCredentialException) {
         throw new InvalidCredentialHttpException();
@@ -34,10 +44,14 @@ export class UserController {
   }
 
   @Post('')
+  @UseInterceptors(TransformResponseInterceptor)
   async register(
     @Body() registerRequestDto: RegisterRequestDto,
-  ): Promise<RegisterResponseDto> {
-    const user: UserDto = await this.userService.create(registerRequestDto);
-    return { user };
+  ): Promise<Response<RegisterResponseDto>> {
+    await this.userService.create(registerRequestDto);
+    return {
+      message: 'User Registered Successfully',
+      data: null,
+    };
   }
 }
