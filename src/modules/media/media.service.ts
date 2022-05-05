@@ -1,18 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { Media } from './entities/media.entity';
+import { IMediaService } from '@modules/media/contracts/media.service.interface';
+import { MediaDto } from '@modules/media/dto/media.dto';
+import { IMediaRepository } from '@modules/media/contracts/media.repository.interface';
+import { IMediaProvider } from '@modules/media/contracts/media.provider.interface';
 
 @Injectable()
-export class MediaService {
+export class MediaService implements IMediaService {
   constructor(
-    @Inject('MEDIA_REPOSITORY')
-    private readonly mediaRepository: Repository<Media>,
+    @Inject(IMediaRepository)
+    private readonly mediaRepository: IMediaRepository,
+    @Inject(IMediaProvider) private readonly mediaProvider: IMediaProvider,
   ) {}
 
-  async create(file: any): Promise<Media> {
+  async upload(file: any): Promise<MediaDto> {
+    const filePath: string = await this.mediaProvider.upload(file);
     return this.mediaRepository.save({
-      name: file?.filename,
-      path: file?.path,
+      name: file?.originalname,
+      path: filePath,
     });
   }
 }
