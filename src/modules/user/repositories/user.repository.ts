@@ -4,6 +4,7 @@ import { User } from '@modules/user/entities/user.entity';
 import { IUserRepository } from '@modules/user/contracts/user.repository.interface';
 import { UserDto } from '@modules/user/dto/user.dto';
 import { RegisterRequestDto } from '@modules/user/dto/register.dto';
+import {EditUserDto} from "@modules/user/dto/editUser.dto";
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -18,5 +19,15 @@ export class UserRepository implements IUserRepository {
 
   async create(registerDto: RegisterRequestDto): Promise<UserDto> {
     return this.postgresUserRepository.save(registerDto);
+  }
+
+  async get(id: string): Promise<UserDto> {
+    return this.postgresUserRepository.findOne({id})
+  }
+
+  async edit(registerRequestDto: EditUserDto, id: string): Promise<void> {
+    await this.postgresUserRepository.update({id} , {
+      ...registerRequestDto
+    })
   }
 }

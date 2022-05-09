@@ -3,6 +3,7 @@ import { IPostRepository } from '@modules/post/contracts/post.repository.interfa
 import { IPostService } from '@modules/post/contracts/post.service.interface';
 import { CreatePostRequestDto } from '@modules/post/dto/create-post.dto';
 import { PostDto } from '@modules/post/dto/post.dto';
+import { ListPostDto } from '@modules/post/dto/list-post.dto';
 
 @Injectable()
 export class PostService implements IPostService {
@@ -17,8 +18,8 @@ export class PostService implements IPostService {
     return this.postRepository.create(createPostDto, userId);
   }
 
-  async listPosts(): Promise<PostDto[]> {
-    return this.postRepository.list();
+  async listPosts(listPostsDto: ListPostDto): Promise<PostDto[]> {
+    return this.postRepository.list(listPostsDto);
   }
 
   async likePost(userId: string, postId: string): Promise<void> {

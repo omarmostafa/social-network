@@ -34,21 +34,36 @@ export class Post {
   @Column({ default: 0 })
   numberOfLikes: number;
 
-  @ManyToOne(() => Tag, (tag) => tag.posts, { nullable: true, eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => Tag, (tag) => tag.posts, {
+    nullable: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'tagId' })
   tag?: Tag;
 
-  @ManyToOne(() => User, (user) => user.posts, { nullable: true, eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.posts, {
+    nullable: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user?: User;
 
-  @ManyToMany(() => User, (user) => user.likes, { primary: true, onDelete: 'CASCADE' })
+  @ManyToMany(() => User, (user) => user.likes, {
+    primary: true,
+    onDelete: 'CASCADE',
+  })
   @JoinTable({
     name: 'likes',
   })
   likes?: User[];
 
-  @OneToOne(() => Media, (media) => media.post, { nullable: true, eager: true, onDelete: 'CASCADE' })
+  @OneToOne(() => Media, (media) => media.post, {
+    nullable: true,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   media?: Media;
 

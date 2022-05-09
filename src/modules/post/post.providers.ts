@@ -6,11 +6,17 @@ import { IPostRepository } from '@modules/post/contracts/post.repository.interfa
 import { PostRepository } from '@modules/post/repositories/post.repository';
 import { IPostService } from '@modules/post/contracts/post.service.interface';
 import { PostService } from '@modules/post/post.service';
+import { Tag } from '@modules/post/entities/tag.entity';
 
 export const postProviders: Provider[] = [
   {
     provide: 'POST_REPOSITORY',
     useFactory: (connection: Connection) => connection.getRepository(Post),
+    inject: [DATABASE_CONNECTION],
+  },
+  {
+    provide: 'TAG_REPOSITORY',
+    useFactory: (connection: Connection) => connection.getRepository(Tag),
     inject: [DATABASE_CONNECTION],
   },
   {

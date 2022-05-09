@@ -1,8 +1,10 @@
 import {
   Body,
-  Controller,
+  Controller, Get,
   Inject,
-  Post,
+  Param,
+  ParseUUIDPipe,
+  Post, Put, Request, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { IAuthService } from '@modules/auth/contracts/auth.service.interface';
@@ -16,6 +18,9 @@ import {
 } from '@modules/user/dto/register.dto';
 import { Response } from '@core/types/response';
 import { TransformResponseInterceptor } from '@core/interceptors/transform-response.interceptor';
+import { UserDto } from '@modules/user/dto/user.dto';
+import {EditUserDto} from "@modules/user/dto/editUser.dto";
+import {JwtAuthGuard} from "@modules/auth/jwt-auth-guard";
 
 @Controller('users')
 export class UserController {
@@ -51,6 +56,32 @@ export class UserController {
     await this.userService.create(registerRequestDto);
     return {
       message: 'User Registered Successfully',
+      data: null,
+    };
+  }
+
+  @Get(':id/profile')
+  @UseInterceptors(TransformResponseInterceptor)
+  async profile(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<Response<UserDto>> {
+    const user = await this.userService.get(id);
+    return {
+      message: '',
+      data: user,
+    };
+  }
+
+  @Put('profile')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(TransformResponseInterceptor)
+  async editProfile(
+      @Body() data: EditUserDto,
+      @Request() req: any,
+  ): Promise<Response<UserDto>> {
+    const user = await this.userService.edit(data,req?.user?.id);
+    return {
+      message: 'User Edited successfully',
       data: null,
     };
   }
