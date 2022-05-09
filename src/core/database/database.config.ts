@@ -2,9 +2,11 @@ import { registerAs } from '@nestjs/config';
 
 export default registerAs('database', () => {
   return {
-    url:
-      process.env.PG_URL ??
-      `postgresql://postgres:postgres@127.0.0.1:5432/social_network`,
+    port: 5432,
+    host: 'postgres',
+    username: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || 'changeme',
+    database: process.env.DB_DATABASE_NAME || 'social',
     synchronize: false,
     migrationsTableName: `schema_migrations`,
     type: 'postgres',

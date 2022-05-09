@@ -1,9 +1,11 @@
-import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import {IsNotEmpty, IsOptional, IsString, IsUUID, Validate} from 'class-validator';
 import { UserDto } from '@modules/user/dto/user.dto';
+import {usernameUnique} from "@core/validators/usernameUnique";
 
 export class RegisterRequestDto {
   @IsString()
   @IsNotEmpty({ message: 'The username is required' })
+  @Validate(usernameUnique)
   readonly username: string;
 
   @IsString()
@@ -16,7 +18,7 @@ export class RegisterRequestDto {
 
   @IsUUID()
   @IsOptional()
-  readonly mediaId: string;
+  readonly mediaId?: string;
 }
 
 export class RegisterResponseDto {

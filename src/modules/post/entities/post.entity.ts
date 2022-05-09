@@ -10,9 +10,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Media } from '@modules/media/entities/media.entity';
-import { Tag } from '@modules/post/entities/tag.entity';
-import { User } from '@modules/user/entities/user.entity';
+import { Media } from '../../media/entities/media.entity';
+import { Tag } from '../../post/entities/tag.entity';
+import { User } from '../../user/entities/user.entity';
 
 @Entity('posts')
 export class Post {
@@ -34,21 +34,21 @@ export class Post {
   @Column({ default: 0 })
   numberOfLikes: number;
 
-  @ManyToOne(() => Tag, (tag) => tag.posts, { nullable: true, eager: true })
+  @ManyToOne(() => Tag, (tag) => tag.posts, { nullable: true, eager: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'tagId' })
   tag?: Tag;
 
-  @ManyToOne(() => User, (user) => user.posts, { nullable: true, eager: true })
+  @ManyToOne(() => User, (user) => user.posts, { nullable: true, eager: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user?: User;
 
-  @ManyToMany(() => User, (user) => user.likes, { primary: true })
+  @ManyToMany(() => User, (user) => user.likes, { primary: true, onDelete: 'CASCADE' })
   @JoinTable({
     name: 'likes',
   })
   likes?: User[];
 
-  @OneToOne(() => Media, (media) => media.post, { nullable: true, eager: true })
+  @OneToOne(() => Media, (media) => media.post, { nullable: true, eager: true, onDelete: 'CASCADE' })
   @JoinColumn()
   media?: Media;
 

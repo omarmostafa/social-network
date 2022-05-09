@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { Post } from '@modules/post/entities/post.entity';
+import { Post } from '../../post/entities/post.entity';
 
 @Entity()
 export class Media {

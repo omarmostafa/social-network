@@ -9,8 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Media } from '@modules/media/entities/media.entity';
-import { Post } from '@modules/post/entities/post.entity';
+import { Media } from '../../media/entities/media.entity';
+import { Post } from '../../post/entities/post.entity';
 
 @Entity('users')
 export class User {
